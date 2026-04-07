@@ -198,7 +198,7 @@ const Reports = () => {
                     <thead>
                       <tr>
                         <th>Data</th>
-                        <th className="description-column">Descrição</th>
+                        <th className="description-column">Título da Atividade</th>
                         <th>Duração</th>
                       </tr>
                     </thead>
@@ -209,9 +209,9 @@ const Reports = () => {
                             <td>{formatDate(activity.date)}</td>
                             <td
                               className="description-cell"
-                              title={activity.description}
+                              title={activity.title}
                             >
-                              {activity.description}
+                              {activity.title}
                             </td>
                             <td>{formatDuration(activity.durationMinutes)}</td>
                           </tr>

@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback, Fragment } from 'react';
+import { useState, useEffect, useCallback, useMemo, Fragment } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { fetchActivitiesByStatus, updateActivityStatus } from '../../service/activityApi';
+import { fetchDepartments } from '../../service/departmentApi';
 import { formatDate, formatDuration, formatActivityStatus } from '../../utils/formatters';
 import { toast } from 'react-toastify';
 import { CheckSquare, Check, X, Clock } from 'lucide-react';
@@ -11,9 +12,21 @@ import './Approvals.css';
 const Approvals = () => {
   const { token } = useAuth();
   const [activities, setActivities] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('PENDING');
   const [selectedActivityId, setSelectedActivityId] = useState(null);
+
+  const departmentMap = useMemo(
+    () => Object.fromEntries(departments.map((d) => [d.id, d.name])),
+    [departments]
+  );
+
+  useEffect(() => {
+    fetchDepartments(token)
+      .then(setDepartments)
+      .catch((err) => console.error('Erro ao carregar departamentos:', err));
+  }, [token]);
 
   const loadActivities = useCallback(async () => {
     try {
@@ -111,7 +124,7 @@ const Approvals = () => {
                     <tr>
                       <th>Voluntário</th>
                       <th>Data</th>
-                      <th>Descrição</th>
+                      <th>Título</th>
                       <th>Duração</th>
                       <th>Status</th>
                       {filter === 'PENDING' && <th>Ações</th>}
@@ -131,12 +144,12 @@ const Approvals = () => {
                             <td>
                               <div className="volunteer-info">
                                 <strong>{activity.volunteerName}</strong>
-                                <small>{activity.departmentName}</small>
+                                
                               </div>
                             </td>
                             <td>{formatDate(activity.date)}</td>
                             <td>
-                              <div className="description-cell">{activity.description}</div>
+                              <div className="description-cell">{activity.title}</div>
                             </td>
                             <td>{formatDuration(activity.durationMinutes)}</td>
                             <td>
@@ -181,7 +194,7 @@ const Approvals = () => {
                                     <div className="approval-section">
                                       <h4>Voluntário</h4>
                                       <p><strong>Nome:</strong> {activity.volunteerName}</p>
-                                      <p><strong>Setor:</strong> {activity.departmentName || '-'}</p>
+                                      <p><strong>Setor:</strong> {departmentMap[activity.departmentId] || activity.departmentName || '-'}</p>
                                     </div>
 
                                     <div className="approval-section">

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { fetchDepartmentById } from '../../service/departmentApi';
-import { validateDescription } from '../../utils/validators';
+import { validateDescription, validateTitle } from '../../utils/validators';
 import { toast } from 'react-toastify';
 import './ActivityForm.css';
 
@@ -11,6 +11,7 @@ const ActivityForm = ({ onSubmit, onCancel, initialData = null }) => {
   const [formData, setFormData] = useState({
     date: initialData?.date || '',
     durationMinutes: initialData?.durationMinutes || '',
+    title: initialData?.title || '',
     description: initialData?.description || '',
     volunteerId: user?.volunteerId || ''
   });
@@ -22,6 +23,7 @@ const ActivityForm = ({ onSubmit, onCancel, initialData = null }) => {
     setFormData({
       date: initialData?.date || '',
       durationMinutes: initialData?.durationMinutes || '',
+      title: initialData?.title || '',
       description: initialData?.description || '',
       volunteerId: user?.volunteerId || ''
     });
@@ -83,6 +85,11 @@ const ActivityForm = ({ onSubmit, onCancel, initialData = null }) => {
       return false;
     }
 
+    if (!validateTitle(formData.title, 10, 75)) {
+      toast.error('Descrição deve ter entre 10 e 75 caracteres');
+      return false;
+    }
+
     return true;
   };
 
@@ -99,6 +106,7 @@ const ActivityForm = ({ onSubmit, onCancel, initialData = null }) => {
       const payload = {
         date: formData.date,
         description: formData.description.trim(),
+        title: formData.title.trim(),
         durationMinutes: parseInt(formData.durationMinutes, 10),
         volunteerId: parseInt(formData.volunteerId, 10)
       };
@@ -108,6 +116,7 @@ const ActivityForm = ({ onSubmit, onCancel, initialData = null }) => {
       if (!initialData) {
         setFormData({
           date: '',
+          title: '',
           durationMinutes: '',
           description: '',
           volunteerId: user?.volunteerId || ''
@@ -178,6 +187,20 @@ const ActivityForm = ({ onSubmit, onCancel, initialData = null }) => {
             <option value="300">5h</option>
           </select>
           <small>Intervalos de 30 minutos</small>
+        </div>
+
+       <div className="form-group">
+          <label>Título da Atividade</label>
+          <input
+            name="title"
+            onChange={handleChange}
+            type="text"
+            value={formData.title}
+            placeholder="Descreva o título da atividade"
+          />
+          <small>
+            {formData.title.length}/75 caracteres (mínimo: 10)
+          </small>
         </div>
 
         <div className="form-group">

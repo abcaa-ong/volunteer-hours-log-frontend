@@ -102,6 +102,15 @@
   font-size: var(--text-base);
 }
 
+.activity-title {
+  max-width: 100%;
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .activity-description {
   max-width: 100%;
   color: var(--text-primary);

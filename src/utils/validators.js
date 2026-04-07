@@ -67,8 +67,22 @@ export const validateDuration = (minutes) => {
  */
 export const validateDescription = (description, minLength = 10, maxLength = 500) => {
   if (!description) return false;
-  
+
   const trimmed = description.trim();
+  return trimmed.length >= minLength && trimmed.length <= maxLength;
+};
+
+/**
+ * Valida um título
+ * @param {string} title - Título a ser validado
+ * @param {number} minLength - Tamanho mínimo
+ * @param {number} maxLength - Tamanho máximo
+ * @returns {boolean} true se válido, false caso contrário
+ */
+export const validateTitle = (title, minLength = 10, maxLength = 75) => {
+  if (!title) return false;
+
+  const trimmed = title.trim();
   return trimmed.length >= minLength && trimmed.length <= maxLength;
 };
 

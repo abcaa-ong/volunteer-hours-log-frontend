@@ -121,11 +121,11 @@ const ActivityList = ({ activities, onEdit, onDelete, onRefresh }) => {
                     <span>{formatDuration(activity.durationMinutes)}</span>
                   </div>
 
-                  <p className="activity-description">{previewDescription}</p>
+                  <p className="activity-title">{activity.title}</p>
 
-                  {isExpanded && remainingDescription && (
+                  {isExpanded && activity.description && (
                     <div className="activity-description-expanded">
-                      <p>{remainingDescription}</p>
+                      <p>{activity.description}</p>
                     </div>
                   )}
                 </div>
@@ -133,6 +133,17 @@ const ActivityList = ({ activities, onEdit, onDelete, onRefresh }) => {
                 <div className="card-actions">
                   {canEditOwnActivity(activity) ? (
                     <>
+
+                        <button
+                      onClick={() => handleToggleDescription(activity.id)}
+                      className="btn-icon btn-view"
+                      title={isExpanded ? 'Ocultar descrição' : 'Visualizar descrição'}
+                      disabled={!isLongDescription && !activity.description}
+                    >
+                      <Eye size={18} />
+                      <span>{isLongDescription ? (isExpanded ? 'Ocultar' : 'Detalhes') : 'Detalhes'}</span>
+                    </button>
+
                       <button
                         onClick={() => handleEdit(activity)}
                         className="btn-icon btn-edit"
@@ -149,16 +160,17 @@ const ActivityList = ({ activities, onEdit, onDelete, onRefresh }) => {
                         <Trash2 size={18} />
                         <span>Deletar</span>
                       </button>
+
                     </>
                   ) : (
                     <button
                       onClick={() => handleToggleDescription(activity.id)}
                       className="btn-icon btn-view"
                       title={isExpanded ? 'Ocultar descrição' : 'Visualizar descrição'}
-                      disabled={!isLongDescription}
+                      disabled={!isLongDescription && !activity.description}
                     >
                       <Eye size={18} />
-                      <span>{isLongDescription ? (isExpanded ? 'Ocultar' : 'Visualizar') : 'Completa'}</span>
+                      <span>{isLongDescription ? (isExpanded ? 'Ocultar' : 'Detalhes') : 'Detalhes'}</span>
                     </button>
                   )}
                 </div>
