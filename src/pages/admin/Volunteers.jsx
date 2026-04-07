@@ -8,7 +8,10 @@ import { toast } from 'react-toastify';
 import { Users, Shield, Trash2, Search } from 'lucide-react';
 import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
+import Pagination from '../../components/common/Pagination';
 import './Volunteers.css';
+
+const PAGE_SIZE = 10;
 
 const Volunteers = () => {
   const { token } = useAuth();
@@ -19,13 +22,17 @@ const Volunteers = () => {
   const [filteredVolunteers, setFilteredVolunteers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const loadVolunteersAndProfiles = useCallback(async () => {
     try {
       setLoading(true);
-      const volunteersData = await fetchVolunteers(token);
+      const data = await fetchVolunteers(token, currentPage, PAGE_SIZE);
+      const volunteersData = data.content;
       setVolunteers(volunteersData);
       setFilteredVolunteers(volunteersData);
+      setTotalPages(data.totalPages);
 
       const profilePromises = volunteersData.map((vol) =>
         fetchVolunteerProfileById(vol.id, token)
@@ -44,7 +51,7 @@ const Volunteers = () => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, currentPage]);
 
   const loadDepartments = useCallback(async () => {
     try {
@@ -299,6 +306,11 @@ const Volunteers = () => {
                 <p>{filteredVolunteers.length} voluntário(s) encontrado(s)</p>
               </div>
             )}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </div>
       </div>

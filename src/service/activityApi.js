@@ -8,23 +8,20 @@ const activityAPI = `${API_BASE_URL}/activity`;
  * @param {string} token - Token JWT
  * @returns {Promise<Array>} Lista de atividades
  */
-export const fetchActivities = async (token) => {
+export const fetchActivities = async (token, page = 0, size = 12) => {
   try {
-    const response = await fetch(`${activityAPI}/listAll`, {
+    const response = await fetch(`${activityAPI}/listAll?page=${page}&size=${size}`, {
       headers: getAuthHeaders(token)
     });
 
-    if (response.status === 204) {
-      return [];
-    }
+    if (response.status === 204) return { content: [], currentPage: 0,
+         pageSize: size, totalElements: 0, totalPages: 0 };
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || 'Erro ao buscar atividades');
-    }
+    if (!response.ok) throw new Error('Erro ao buscar atividades');
+    return await response.json(); 
 
-    return await response.json();
-  } catch (error) {
+
+    } catch (error) {
     console.error('Erro ao buscar atividades:', error);
     throw error;
   }
@@ -60,12 +57,12 @@ export const fetchActivityById = async (id, token) => {
  * @param {string} token - Token JWT
  * @returns {Promise<Array>} Lista de atividades
  */
-export const fetchActivitiesByVolunteer = async (volunteerId, token) => {
+export const fetchActivitiesByVolunteer = async (volunteerId, token, page = 0, size = 12 )=> {
   try {
     console.log('fetchActivitiesByVolunteer - volunteerId:', volunteerId);
     console.log('fetchActivitiesByVolunteer - URL:', `${activityAPI}/volunteer/${volunteerId}`);
     
-    const response = await fetch(`${activityAPI}/volunteer/${volunteerId}`, {
+    const response = await fetch(`${activityAPI}/volunteer/${volunteerId}?page=${page}&size=${size}`, {
       headers: getAuthHeaders(token)
     });
 
@@ -73,7 +70,7 @@ export const fetchActivitiesByVolunteer = async (volunteerId, token) => {
 
     if (response.status === 204) {
       console.log('fetchActivitiesByVolunteer - Nenhuma atividade encontrada (204)');
-      return [];
+      return { content: [], currentPage: 0, pageSize: size, totalElements: 0, totalPages: 0 };
     }
 
     if (!response.ok) {
@@ -85,6 +82,7 @@ export const fetchActivitiesByVolunteer = async (volunteerId, token) => {
     const data = await response.json();
     console.log('fetchActivitiesByVolunteer - Dados recebidos:', data);
     return data;
+
   } catch (error) {
     console.error('Erro ao buscar atividades do voluntário:', error);
     throw error;
@@ -97,14 +95,14 @@ export const fetchActivitiesByVolunteer = async (volunteerId, token) => {
  * @param {string} token - Token JWT
  * @returns {Promise<Array>} Lista de atividades
  */
-export const fetchActivitiesByStatus = async (status, token) => {
+export const fetchActivitiesByStatus = async (status, token,  page = 0, size = 12) => {
   try {
-    const response = await fetch(`${activityAPI}/status/${status}`, {
+    const response = await fetch(`${activityAPI}/status/${status}?page=${page}&size=${size}`, {
       headers: getAuthHeaders(token)
     });
 
     if (response.status === 204) {
-      return [];
+      return { content: [], currentPage: 0, pageSize: size, totalElements: 0, totalPages: 0 };
     }
 
     if (!response.ok) {

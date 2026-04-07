@@ -3,8 +3,8 @@ import { getAuthHeaders } from '../utils/apiHeaders';
 
 const volunteerAPI = `${API_BASE_URL}/volunteer`;
 
-export const fetchVolunteers = async (token) => {
-  const response = await fetch(`${volunteerAPI}/list`, {
+export const fetchVolunteers = async (token, page = 0, size = 10 ) => {
+  const response = await fetch(`${volunteerAPI}/list?page=${page}&size=${size}`, {
     headers: getAuthHeaders(token)
   });
 

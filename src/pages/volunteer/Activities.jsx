@@ -10,9 +10,12 @@ import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
 import ActivityForm from '../../components/volunteer/ActivityForm';
 import ActivityList from '../../components/volunteer/ActivityList';
+import Pagination from '../../components/common/Pagination';
 import Loading from '../../components/common/Loading';
 import { toast } from 'react-toastify';
 import './Activities.css';
+
+const PAGE_SIZE = 12;
 
 const Activities = () => {
   const { user, token } = useAuth();
@@ -20,6 +23,8 @@ const Activities = () => {
   const [loading, setLoading] = useState(true);
   const [editingActivity, setEditingActivity] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const loadActivities = useCallback(async () => {
     if (!user?.volunteerId) {
@@ -32,16 +37,17 @@ const Activities = () => {
     setLoading(true);
     try {
       console.log('Buscando atividades para volunteerId:', user.volunteerId);
-      const data = await fetchActivitiesByVolunteer(user.volunteerId, token);
+      const data = await fetchActivitiesByVolunteer(user.volunteerId, token, currentPage, PAGE_SIZE);
       console.log('Atividades recebidas:', data);
-      setActivities(data);
+      setActivities(data.content);
+      setTotalPages(data.totalPages);
     } catch (error) {
       console.error('Erro ao carregar atividades:', error);
       toast.error('Erro ao carregar atividades');
     } finally {
       setLoading(false);
     }
-  }, [token, user]);
+  }, [token, user, currentPage]);
 
   useEffect(() => {
     if (user?.volunteerId) {
@@ -161,12 +167,19 @@ const Activities = () => {
         {loading ? (
           <Loading message="Carregando atividades..." />
         ) : (
-          <ActivityList
-            activities={activities}
-            onEdit={handleStartEdit}
-            onDelete={handleDelete}
-            onRefresh={loadActivities}
-          />
+          <>
+            <ActivityList
+              activities={activities}
+              onEdit={handleStartEdit}
+              onDelete={handleDelete}
+              onRefresh={loadActivities}
+            />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </>
         )}
       </div>
       <Footer />

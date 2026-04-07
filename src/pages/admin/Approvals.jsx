@@ -7,7 +7,10 @@ import { toast } from 'react-toastify';
 import { CheckSquare, Check, X, Clock } from 'lucide-react';
 import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
+import Pagination from '../../components/common/Pagination';
 import './Approvals.css';
+
+const PAGE_SIZE = 10;
 
 const Approvals = () => {
   const { token } = useAuth();
@@ -16,6 +19,8 @@ const Approvals = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('PENDING');
   const [selectedActivityId, setSelectedActivityId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const departmentMap = useMemo(
     () => Object.fromEntries(departments.map((d) => [d.id, d.name])),
@@ -31,8 +36,9 @@ const Approvals = () => {
   const loadActivities = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchActivitiesByStatus(filter, token);
-      setActivities(data);
+      const data = await fetchActivitiesByStatus(filter, token, currentPage, PAGE_SIZE);
+      setActivities(data.content);
+      setTotalPages(data.totalPages);
       setSelectedActivityId(null);
     } catch (error) {
       toast.error('Erro ao carregar atividades');
@@ -40,11 +46,16 @@ const Approvals = () => {
     } finally {
       setLoading(false);
     }
-  }, [filter, token]);
+  }, [filter, token, currentPage]);
 
   useEffect(() => {
     loadActivities();
   }, [loadActivities]);
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+    setCurrentPage(0);
+  };
 
   const handleStatusChange = async (activityId, newStatus) => {
     const statusText = newStatus === 'APPROVED' ? 'aprovar' : 'rejeitar';
@@ -83,7 +94,7 @@ const Approvals = () => {
           <div className="filter-tabs">
             <button
               className={`tab ${filter === 'PENDING' ? 'active' : ''}`}
-              onClick={() => setFilter('PENDING')}
+              onClick={() => handleFilterChange('PENDING')}
             >
               <Clock size={18} />
               Pendentes
@@ -93,14 +104,14 @@ const Approvals = () => {
             </button>
             <button
               className={`tab ${filter === 'APPROVED' ? 'active' : ''}`}
-              onClick={() => setFilter('APPROVED')}
+              onClick={() => handleFilterChange('APPROVED')}
             >
               <Check size={18} />
               Aprovadas
             </button>
             <button
               className={`tab ${filter === 'REJECTED' ? 'active' : ''}`}
-              onClick={() => setFilter('REJECTED')}
+              onClick={() => handleFilterChange('REJECTED')}
             >
               <X size={18} />
               Rejeitadas
@@ -220,6 +231,11 @@ const Approvals = () => {
                 </table>
               </div>
             )}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </div>
       </div>
