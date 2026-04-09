@@ -1,10 +1,11 @@
 import { API_BASE_URL } from '../utils/constants';
 import { getAuthHeaders } from '../utils/apiHeaders';
+import { apiFetch } from '../utils/apiFetch';
 
 const volunteerAPI = `${API_BASE_URL}/volunteer`;
 
 export const fetchVolunteers = async (token, page = 0, size = 10 ) => {
-  const response = await fetch(`${volunteerAPI}/list?page=${page}&size=${size}`, {
+  const response = await apiFetch(`${volunteerAPI}/list?page=${page}&size=${size}`, {
     headers: getAuthHeaders(token)
   });
 
@@ -16,7 +17,7 @@ export const fetchVolunteers = async (token, page = 0, size = 10 ) => {
 };
 
 export const fetchVolunteerById = async (volunteerId, token) => {
-  const response = await fetch(`${volunteerAPI}/${volunteerId}`, {
+  const response = await apiFetch(`${volunteerAPI}/${volunteerId}`, {
     headers: getAuthHeaders(token)
   });
 
@@ -28,7 +29,7 @@ export const fetchVolunteerById = async (volunteerId, token) => {
 };
 
 export const updateVolunteerUserType = async (volunteerId, userType, token) => {
-  const response = await fetch(`${volunteerAPI}/${volunteerId}/usertype?userType=${userType}`, {
+  const response = await apiFetch(`${volunteerAPI}/${volunteerId}/usertype?userType=${userType}`, {
     method: 'PATCH',
     headers: getAuthHeaders(token)
   });
@@ -41,7 +42,7 @@ export const updateVolunteerUserType = async (volunteerId, userType, token) => {
 };
 
 export const deleteVolunteer = async (volunteerId, token) => {
-  const response = await fetch(`${volunteerAPI}/delete/${volunteerId}`, {
+  const response = await apiFetch(`${volunteerAPI}/delete/${volunteerId}`, {
     method: 'DELETE',
     headers: getAuthHeaders(token)
   });

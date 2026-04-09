@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '../utils/constants';
 import { getHeaders } from '../utils/apiHeaders';
+import { apiFetch } from '../utils/apiFetch';
 
 const departmentAPI = `${API_BASE_URL}/departments`;
 
@@ -10,7 +11,7 @@ const departmentAPI = `${API_BASE_URL}/departments`;
  */
 export const fetchDepartments = async (token) => {
   try {
-    const response = await fetch(`${departmentAPI}/list`, { 
+    const response = await apiFetch(`${departmentAPI}/list`, { 
       headers: getHeaders(token)
     });
 
@@ -38,7 +39,7 @@ export const fetchDepartments = async (token) => {
  */
 export const fetchDepartmentById = async (id, token) => {
   try {
-    const response = await fetch(`${departmentAPI}/${id}`, {
+    const response = await apiFetch(`${departmentAPI}/${id}`, {
       headers: getHeaders(token)
     });
 
@@ -63,7 +64,7 @@ export const fetchDepartmentById = async (id, token) => {
  */
 export const createDepartment = async (department, token) => {
   try {
-    const response = await fetch(`${departmentAPI}/create`, {
+    const response = await apiFetch(`${departmentAPI}/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ export const createDepartment = async (department, token) => {
  */
 export const updateDepartment = async (id, department, token) => {
   try {
-    const response = await fetch(`${departmentAPI}/update/${id}`, {
+    const response = await apiFetch(`${departmentAPI}/update/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ export const updateDepartment = async (id, department, token) => {
  */
 export const deleteDepartment = async (id, token) => {
   try {
-    const response = await fetch(`${departmentAPI}/delete/${id}`, {
+    const response = await apiFetch(`${departmentAPI}/delete/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`

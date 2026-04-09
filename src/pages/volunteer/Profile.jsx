@@ -145,6 +145,7 @@ const Profile = () => {
       }
       toast.success('Perfil atualizado com sucesso!');
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error(error.message || 'Erro ao salvar perfil');
       console.error(error);
     } finally {

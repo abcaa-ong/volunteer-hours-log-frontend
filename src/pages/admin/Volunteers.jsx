@@ -46,6 +46,7 @@ const Volunteers = () => {
       const loadedProfiles = await Promise.all(profilePromises);
       setProfiles(loadedProfiles.filter((profile) => profile !== null));
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error('Erro ao carregar voluntários e perfis');
       console.error('❌ Erro:', error);
     } finally {
@@ -112,6 +113,7 @@ const Volunteers = () => {
       toast.success(`Usuário ${newType === 'ADMIN' ? 'promovido' : 'rebaixado'} com sucesso!`);
       loadVolunteersAndProfiles();
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error('Erro ao atualizar tipo de usuário');
       console.error(error);
     }
@@ -127,6 +129,7 @@ const Volunteers = () => {
       toast.success('Voluntário excluído com sucesso!');
       loadVolunteersAndProfiles();
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error('Erro ao excluir voluntário');
       console.error(error);
     }

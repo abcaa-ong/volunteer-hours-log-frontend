@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '../utils/constants';
 import { getAuthHeaders } from '../utils/apiHeaders';
+import { apiFetch } from '../utils/apiFetch';
 
 const activityAPI = `${API_BASE_URL}/activity`;
 
@@ -10,7 +11,7 @@ const activityAPI = `${API_BASE_URL}/activity`;
  */
 export const fetchActivities = async (token, page = 0, size = 12) => {
   try {
-    const response = await fetch(`${activityAPI}/listAll?page=${page}&size=${size}`, {
+    const response = await apiFetch(`${activityAPI}/listAll?page=${page}&size=${size}`, {
       headers: getAuthHeaders(token)
     });
 
@@ -35,7 +36,7 @@ export const fetchActivities = async (token, page = 0, size = 12) => {
  */
 export const fetchActivityById = async (id, token) => {
   try {
-    const response = await fetch(`${activityAPI}/list/${id}`, {
+    const response = await apiFetch(`${activityAPI}/list/${id}`, {
       headers: getAuthHeaders(token)
     });
 
@@ -62,7 +63,7 @@ export const fetchActivitiesByVolunteer = async (volunteerId, token, page = 0, s
     console.log('fetchActivitiesByVolunteer - volunteerId:', volunteerId);
     console.log('fetchActivitiesByVolunteer - URL:', `${activityAPI}/volunteer/${volunteerId}`);
     
-    const response = await fetch(`${activityAPI}/volunteer/${volunteerId}?page=${page}&size=${size}`, {
+    const response = await apiFetch(`${activityAPI}/volunteer/${volunteerId}?page=${page}&size=${size}`, {
       headers: getAuthHeaders(token)
     });
 
@@ -97,7 +98,7 @@ export const fetchActivitiesByVolunteer = async (volunteerId, token, page = 0, s
  */
 export const fetchActivitiesByStatus = async (status, token,  page = 0, size = 12) => {
   try {
-    const response = await fetch(`${activityAPI}/status/${status}?page=${page}&size=${size}`, {
+    const response = await apiFetch(`${activityAPI}/status/${status}?page=${page}&size=${size}`, {
       headers: getAuthHeaders(token)
     });
 
@@ -129,7 +130,7 @@ export const fetchActivitiesByStatus = async (status, token,  page = 0, size = 1
  */
 export const createActivity = async (activity, token) => {
   try {
-    const response = await fetch(`${activityAPI}/create`, {
+    const response = await apiFetch(`${activityAPI}/create`, {
       method: 'POST',
       headers: getAuthHeaders(token),
       body: JSON.stringify(activity)
@@ -156,7 +157,7 @@ export const createActivity = async (activity, token) => {
  */
 export const updateActivity = async (id, activity, token) => {
   try {
-    const response = await fetch(`${activityAPI}/update/${id}`, {
+    const response = await apiFetch(`${activityAPI}/update/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(token),
       body: JSON.stringify(activity)
@@ -183,7 +184,7 @@ export const updateActivity = async (id, activity, token) => {
  */
 export const updateActivityStatus = async (id, status, token) => {
   try {
-    const response = await fetch(`${activityAPI}/${id}/status?status=${status}`, {
+    const response = await apiFetch(`${activityAPI}/${id}/status?status=${status}`, {
       method: 'PATCH',
       headers: getAuthHeaders(token)
     });
@@ -208,7 +209,7 @@ export const updateActivityStatus = async (id, status, token) => {
  */
 export const deleteActivity = async (id, token) => {
   try {
-    const response = await fetch(`${activityAPI}/delete/${id}`, {
+    const response = await apiFetch(`${activityAPI}/delete/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders(token)
     });

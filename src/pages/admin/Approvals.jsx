@@ -41,6 +41,7 @@ const Approvals = () => {
       setTotalPages(data.totalPages);
       setSelectedActivityId(null);
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error('Erro ao carregar atividades');
       console.error(error);
     } finally {
@@ -69,6 +70,7 @@ const Approvals = () => {
       toast.success(`Atividade ${newStatus === 'APPROVED' ? 'aprovada' : 'rejeitada'} com sucesso!`);
       loadActivities();
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error(`Erro ao ${statusText} atividade`);
       console.error(error);
     }

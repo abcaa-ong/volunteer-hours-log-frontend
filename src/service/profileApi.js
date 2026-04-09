@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '../utils/constants';
 import { getAuthHeaders } from '../utils/apiHeaders';
+import { apiFetch } from '../utils/apiFetch';
 
 const profileAPI = `${API_BASE_URL}/volunteer/profile`;
 
@@ -18,7 +19,7 @@ const parseResponseBody = async (response) => {
 };
 
 export const fetchVolunteerProfile = async (token) => {
-  const response = await fetch(profileAPI, {
+  const response = await apiFetch(profileAPI, {
     headers: getAuthHeaders(token)
   });
 
@@ -32,7 +33,7 @@ export const fetchVolunteerProfile = async (token) => {
 };
 
 export const saveVolunteerProfile = async (profileData, token) => {
-  const response = await fetch(profileAPI, {
+  const response = await apiFetch(profileAPI, {
     method: 'PUT',
     headers: getAuthHeaders(token),
     body: JSON.stringify(profileData)
@@ -48,7 +49,7 @@ export const saveVolunteerProfile = async (profileData, token) => {
 };
 
 export const fetchVolunteerProfileById = async (volunteerId, token) => {
-  const response = await fetch(`${API_BASE_URL}/volunteer/profile/${volunteerId}`, {
+  const response = await apiFetch(`${API_BASE_URL}/volunteer/profile/${volunteerId}`, {
     headers: getAuthHeaders(token)
   });
 

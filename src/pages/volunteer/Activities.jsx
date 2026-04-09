@@ -42,6 +42,7 @@ const Activities = () => {
       setActivities(data.content);
       setTotalPages(data.totalPages);
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       console.error('Erro ao carregar atividades:', error);
       toast.error('Erro ao carregar atividades');
     } finally {
@@ -63,6 +64,7 @@ const Activities = () => {
       setIsFormOpen(false);
       loadActivities();
     } catch (error) {
+      if (error.name === 'SessionExpiredError') throw error;
       console.error('Erro ao criar atividade:', error);
       toast.error('Erro ao registrar atividade');
       throw error;
@@ -81,6 +83,7 @@ const Activities = () => {
       setIsFormOpen(false);
       loadActivities();
     } catch (error) {
+      if (error.name === 'SessionExpiredError') throw error;
       console.error('Erro ao atualizar atividade:', error);
       toast.error(error.message || 'Erro ao atualizar atividade');
       throw error;

@@ -24,6 +24,7 @@ const Departments = () => {
       const data = await fetchDepartments(token);
       setDepartments(data);
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error('Erro ao carregar setores');
       console.error(error);
     } finally {
@@ -79,6 +80,7 @@ const Departments = () => {
       handleCloseModal();
       loadDepartments();
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error(`Erro ao ${editingDepartment ? 'atualizar' : 'criar'} setor`);
       console.error(error);
     }
@@ -94,6 +96,7 @@ const Departments = () => {
       toast.success('Setor excluído com sucesso!');
       loadDepartments();
     } catch (error) {
+      if (error.name === 'SessionExpiredError') return;
       toast.error('Erro ao excluir setor');
       console.error(error);
     }

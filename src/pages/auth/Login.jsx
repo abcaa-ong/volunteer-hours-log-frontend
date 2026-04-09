@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { login as loginAPI } from '../../service/authApi';
@@ -14,8 +14,16 @@ const Login = () => {
     password: ''
   });
   const [loading, setLoading] = useState(false);
-  
+  const [sessionExpiredMsg, setSessionExpiredMsg] = useState('');
+
   const { login } = useAuth();
+
+  useEffect(() => {
+    if (sessionStorage.getItem('sessionExpired')) {
+      sessionStorage.removeItem('sessionExpired');
+      setSessionExpiredMsg('Sua sessão expirou. Faça login novamente.');
+    }
+  }, []);
   const navigate = useNavigate();
 
   // Atualiza o state quando um campo muda
@@ -71,6 +79,10 @@ const Login = () => {
           <h1>Sistema ABCAA</h1>
           <p>Faça login para continuar</p>
         </div>
+
+        {sessionExpiredMsg && (
+          <p className="error-message">{sessionExpiredMsg}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
