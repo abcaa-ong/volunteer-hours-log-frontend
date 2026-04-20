@@ -7,6 +7,13 @@ import logo from '../../assets/logo.png';
 import './auth.css';
 
 
+const shortName = (name) => {
+  const parts = name?.trim()?.split(/\s+/).filter(Boolean) || [];
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  if (parts.length <= 1) return cap(parts[0] || '');
+  return `${cap(parts[0])} ${cap(parts[parts.length - 1])}`;
+};
+
 const Login = () => {
   // Estado do formulário
   const [credentials, setCredentials] = useState({
@@ -55,7 +62,7 @@ const Login = () => {
       );
       
       // Mostra mensagem de sucesso
-      toast.success(`Bem-vindo, ${response.name}!`);
+      toast.success(`Bem-vindo, ${shortName(response.name)}!`);
       
       // Redireciona baseado no tipo de usuário
       if (response.userType === 'ADMIN') {

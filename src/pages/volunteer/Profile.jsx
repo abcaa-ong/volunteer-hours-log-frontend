@@ -8,6 +8,13 @@ import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
 import './Profile.css';
 
+const shortName = (name) => {
+  const parts = name?.trim()?.split(/\s+/).filter(Boolean) || [];
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  if (parts.length <= 1) return cap(parts[0] || '');
+  return `${cap(parts[0])} ${cap(parts[parts.length - 1])}`;
+};
+
 const formatPhone = (value) => {
   const digitsOnly = value.replace(/\D/g, '').slice(0, 11);
 
@@ -184,7 +191,7 @@ const Profile = () => {
 
           <div className="profile-card">
             <div className="user-info">
-              <h3>{user?.name}</h3>
+              <h3>{shortName(user?.name)}</h3>
               <p>{user?.email}</p>
             </div>
 

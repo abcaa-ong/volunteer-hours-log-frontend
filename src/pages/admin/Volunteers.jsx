@@ -13,6 +13,13 @@ import './Volunteers.css';
 
 const PAGE_SIZE = 10;
 
+const shortName = (name) => {
+  const parts = name?.trim()?.split(/\s+/).filter(Boolean) || [];
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  if (parts.length <= 1) return cap(parts[0] || '');
+  return `${cap(parts[0])} ${cap(parts[parts.length - 1])}`;
+};
+
 const Volunteers = () => {
   const { token } = useAuth();
   const [volunteers, setVolunteers] = useState([]);
@@ -197,7 +204,7 @@ const Volunteers = () => {
                             style={{ cursor: 'pointer' }}
                           >
                             <td>
-                              <strong>{volunteer.name}</strong>
+                              <strong>{shortName(volunteer.name)}</strong>
                             </td>
                             <td>{volunteer.email}</td>
                             <td>{departmentMap[volunteer.departmentId] || '-'}</td>

@@ -8,12 +8,19 @@ import './Dashboard.css';
 const VolunteerDashboard = () => {
   const { user } = useAuth();
 
+  const shortName = (name) => {
+    const parts = name?.trim()?.split(/\s+/).filter(Boolean) || [];
+    const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    if (parts.length <= 1) return cap(parts[0] || '');
+    return `${cap(parts[0])} ${cap(parts[parts.length - 1])}`;
+  };
+
   return (
     <div className="container">
       <Sidebar />
       <div className="content">
         <div className="welcome-card">
-          <h1>Bem-vindo, {user?.name}! 👋</h1>
+          <h1>Bem-vindo, {shortName(user?.name)}! 👋</h1>
           <p className="subtitle">
             Painel do Voluntário
           </p>

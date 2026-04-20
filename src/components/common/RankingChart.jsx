@@ -8,6 +8,13 @@ import { Trophy } from 'lucide-react';
 const MEDAL = ['🥇', '🥈', '🥉'];
 const TOP = 5;
 
+const shortName = (name) => {
+  const parts = name?.trim()?.split(/\s+/).filter(Boolean) || [];
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  if (parts.length <= 1) return cap(parts[0] || '');
+  return `${cap(parts[0])} ${cap(parts[parts.length - 1])}`;
+};
+
 const RankingChart = ({ baseRoute }) => {
   const { token } = useAuth();
   const [ranking, setRanking] = useState([]);
@@ -46,7 +53,7 @@ const RankingChart = ({ baseRoute }) => {
               </span>
               <div className="ranking-chart-info">
                 <div className="ranking-chart-name-row">
-                  <span className="ranking-chart-name">{item.volunteerName}</span>
+                  <span className="ranking-chart-name">{shortName(item.volunteerName)}</span>
                   <span className="ranking-chart-hours">{formatDuration(item.totalMinutes)}</span>
                 </div>
                 <div className="ranking-chart-track">

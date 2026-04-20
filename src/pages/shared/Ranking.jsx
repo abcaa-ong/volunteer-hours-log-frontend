@@ -55,9 +55,11 @@ const Ranking = () => {
   };
 
   const shortName = (name) => {
-  const parts = name?.trim()?.split(/\s+/).filter(Boolean) || [];
-  return parts.length <= 1 ? parts[0] || '' : `${parts[0]} ${parts[parts.length - 1]}`;
-};
+    const parts = name?.trim()?.split(/\s+/).filter(Boolean) || [];
+    const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    if (parts.length <= 1) return cap(parts[0] || '');
+    return `${cap(parts[0])} ${cap(parts[parts.length - 1])}`;
+  };
 
   return (
     <div className="container">
