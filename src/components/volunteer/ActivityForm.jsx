@@ -55,7 +55,8 @@ const ActivityForm = ({ onSubmit, onCancel, initialData = null }) => {
       return false;
     }
 
-    const selectedDate = new Date(formData.date);
+    const [y, m, d] = formData.date.split('-');
+    const selectedDate = new Date(y, m - 1, d);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

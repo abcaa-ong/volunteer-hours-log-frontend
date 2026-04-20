@@ -1,0 +1,238 @@
+.ranking-page {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  color: #1f2937;
+}
+
+.page-header svg {
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.page-header .subtitle {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.ranking-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Filtros */
+.ranking-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.filter-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.filter-group input[type='date'] {
+  padding: 0.55rem 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #1f2937;
+  background: #f9fafb;
+  transition: border-color 0.2s;
+}
+
+.filter-group input[type='date']:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: white;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-filter {
+  padding: 0.6rem 1.25rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-filter:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.btn-reset {
+  padding: 0.6rem 0.75rem;
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.btn-reset:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Tabela */
+.ranking-table-wrapper {
+  overflow-x: auto;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ranking-table th {
+  background: #f9fafb;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.ranking-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.ranking-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ranking-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.col-rank {
+  text-align: center;
+  width: 90px;
+}
+
+.col-num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Destaques top 3 */
+.ranking-table tbody tr.top-1 {
+  background: #fffbeb;
+}
+
+.ranking-table tbody tr.top-2 {
+  background: #f8fafc;
+}
+
+.ranking-table tbody tr.top-3 {
+  background: #fff7f0;
+}
+
+.ranking-table tbody tr.top-1:hover,
+.ranking-table tbody tr.top-2:hover,
+.ranking-table tbody tr.top-3:hover {
+  filter: brightness(0.97);
+}
+
+.rank-badge {
+  font-size: 1.2rem;
+  display: inline-block;
+  line-height: 1;
+}
+
+.hours-badge {
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Estados */
+.loading-state,
+.empty-state {
+  padding: 3rem;
+  text-align: center;
+  color: #9ca3af;
+}
+
+.empty-state svg {
+  margin-bottom: 1rem;
+  color: #d1d5db;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .ranking-page {
+    padding: 1rem;
+  }
+
+  .ranking-card {
+    padding: 1rem;
+  }
+
+  .ranking-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-actions {
+    justify-content: flex-end;
+  }
+
+  .ranking-table th,
+  .ranking-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .ranking-table {
+    min-width: 500px;
+  }
+}

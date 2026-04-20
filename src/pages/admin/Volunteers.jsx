@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { fetchDepartments } from '../../service/departmentApi';
 import { fetchVolunteerProfileById } from '../../service/profileApi';
 import { fetchVolunteers, updateVolunteerUserType, deleteVolunteer } from '../../service/volunteerApi';
-import { formatUserType } from '../../utils/formatters';
+import { formatUserType, formatDuration } from '../../utils/formatters';
 import { toast } from 'react-toastify';
 import { Users, Shield, Trash2, Search } from 'lucide-react';
 import Sidebar from '../../components/common/Sidebar';
@@ -177,6 +177,7 @@ const Volunteers = () => {
                       <th>Email</th>
                       <th>Setor</th>
                       <th>Tipo</th>
+                      <th>Horas no mês</th>
                       <th>Ações</th>
                     </tr>
                   </thead>
@@ -205,6 +206,7 @@ const Volunteers = () => {
                                 {formatUserType(volunteer.userType)}
                               </span>
                             </td>
+                            <td>{formatDuration(volunteer.monthlyMinutes ?? 0)}</td>
                             <td>
                               <div className="action-buttons">
                                 <button
@@ -234,7 +236,7 @@ const Volunteers = () => {
 
                           {selectedVolunteer?.id === volunteer.id && (
                             <tr className="details-row">
-                              <td colSpan="5">
+                              <td colSpan="6">
                                 <div className="volunteer-details-inline">
                                   <h3>Detalhes do Voluntário</h3>
                                   <div className="profile-details-grid">
@@ -244,7 +246,7 @@ const Volunteers = () => {
                                       <p><strong>Email:</strong> {volunteer.email}</p>
                                       <p><strong>Telefone:</strong> {profile?.phone || '-'}</p>
                                       <p><strong>CPF:</strong> {profile?.cpf || '-'}</p>
-                                      <p><strong>Data de Nascimento:</strong> {profile?.birthDate ? new Date(profile.birthDate).toLocaleDateString('pt-BR') : '-'}</p>
+                                      <p><strong>Data de Nascimento:</strong> {profile?.birthDate ? (() => { const [y, m, d] = profile.birthDate.split('-'); return new Date(y, m - 1, d).toLocaleDateString('pt-BR'); })() : '-'}</p>
                                     </div>
 
                                     <div className="profile-section">

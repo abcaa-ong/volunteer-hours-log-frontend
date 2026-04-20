@@ -202,6 +202,38 @@ export const updateActivityStatus = async (id, status, token) => {
 };
 
 /**
+ * Busca o ranking de voluntários por horas aprovadas
+ * @param {string} token - Token JWT
+ * @param {string} [startDate] - Data de início (YYYY-MM-DD)
+ * @param {string} [endDate] - Data de fim (YYYY-MM-DD)
+ * @returns {Promise<Array>} Lista de voluntários no ranking
+ */
+export const fetchRanking = async (token, startDate, endDate) => {
+  try {
+    const params = new URLSearchParams();
+    if (startDate) params.append('startDate', startDate);
+    if (endDate) params.append('endDate', endDate);
+
+    const query = params.toString() ? `?${params.toString()}` : '';
+    const response = await apiFetch(`${activityAPI}/ranking${query}`, {
+      headers: getAuthHeaders(token)
+    });
+
+    if (response.status === 204 || response.status === 404) return [];
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || 'Erro ao buscar ranking');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Erro ao buscar ranking:', error);
+    throw error;
+  }
+};
+
+/**
  * Deleta uma atividade
  * @param {number} id - ID da atividade
  * @param {string} token - Token JWT

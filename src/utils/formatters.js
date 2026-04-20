@@ -6,7 +6,13 @@
 export const formatDate = (date) => {
   if (!date) return '';
   
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+    let dateObj;
+  if (typeof date === 'string') {
+    const [y, m, d] = date.split('-');
+    dateObj = new Date(y, m - 1, d);
+  } else {
+    dateObj = date;
+  }
   
   return dateObj.toLocaleDateString('pt-BR', {
     day: '2-digit',

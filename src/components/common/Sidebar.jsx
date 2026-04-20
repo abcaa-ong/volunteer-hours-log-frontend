@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  LayoutDashboard, 
-  User, 
-  Activity, 
-  FileText, 
-  Users, 
-  CheckSquare, 
-  Briefcase, 
+import {
+  LayoutDashboard,
+  User,
+  Activity,
+  FileText,
+  Users,
+  CheckSquare,
+  Briefcase,
   LogOut,
   Menu,
-  X
+  X,
+  Trophy
 } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import './Sidebar.css';
@@ -80,13 +81,11 @@ const Sidebar = () => {
           </div>
           <h2 className="org-name">ABCAA</h2>
           <p className="org-subtitle">Amor em Ação</p>
-          <div className="user-info">
-            <div className="user-meta">
-              <p className="user-name">{displayName}</p>
-              <span className={`badge ${isAdmin() ? 'badge-admin' : 'badge-volunteer'}`}>
-                {isAdmin() ? 'Admin' : 'Voluntário'}
-              </span>
-            </div>
+          <div className="user-meta">
+            <p className="user-name">{displayName}</p>
+            <span className={`badge ${isAdmin() ? 'badge-admin' : 'badge-volunteer'}`}>
+              {isAdmin() ? 'Admin' : 'Voluntário'}
+            </span>
           </div>
         </div>
 
@@ -120,13 +119,15 @@ const Sidebar = () => {
           </Link>
 
           {/* Meus Relatórios */}
-          <Link 
-            to={`${baseRoute}/reports`} 
+          <Link
+            to={`${baseRoute}/reports`}
             className={`nav-item ${isActive(`${baseRoute}/reports`) ? 'active' : ''}`}
           >
             <FileText size={20} />
             <span>Meus Relatórios</span>
           </Link>
+
+         
 
           {/* Separador - Apenas para Admin */}
           {isAdmin() && <div className="nav-separator">Administração</div>}
@@ -162,6 +163,18 @@ const Sidebar = () => {
               <Briefcase size={20} />
               <span>Setores</span>
             </Link>
+          )}
+
+          {/* Ranking */}
+
+          {isAdmin() && (
+          <Link
+            to={`${baseRoute}/ranking`}
+            className={`nav-item ${isActive(`${baseRoute}/ranking`) ? 'active' : ''}`}
+          >
+            <Trophy size={20} />
+            <span>Ranking</span>
+          </Link>
           )}
         </nav>
 

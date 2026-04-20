@@ -28,6 +28,9 @@ import AdminVolunteers from './pages/admin/Volunteers.jsx';
 import AdminApprovals from './pages/admin/Approvals.jsx';
 import AdminDepartments from './pages/admin/Departments.jsx';
 
+// Páginas compartilhadas
+import Ranking from './pages/shared/Ranking.jsx';
+
 // Configuração das rotas
 const router = createBrowserRouter([
   // Rotas Públicas
@@ -91,6 +94,14 @@ const router = createBrowserRouter([
       </PrivateRoute>
     )
   },
+  {
+    path: '/volunteer/ranking',
+    element: (
+      <PrivateRoute>
+        <Ranking />
+      </PrivateRoute>
+    )
+  },
 
   // Rotas do ADMIN
   {
@@ -146,6 +157,14 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute adminOnly={true}>
         <AdminDepartments />
+      </PrivateRoute>
+    )
+  },
+  {
+    path: '/admin/ranking',
+    element: (
+      <PrivateRoute adminOnly={true}>
+        <Ranking />
       </PrivateRoute>
     )
   }
